@@ -25,7 +25,7 @@ def states_view():
         return make_response(jsonify(state.to_dict()), 201)
 
 
-@app_views.route("/states/<state_id>", methods=["GET", "DELETE"],
+@app_views.route("/states/<state_id>", methods=["GET", "DELETE", "PUT"],
                  strict_slashes=False)
 def state_view(state_id):
     """Retrieve or delete a state with state_id"""
@@ -37,5 +37,16 @@ def state_view(state_id):
             storage.delete(state)
             storage.save()
             return make_response(jsonify({}), 200)
+        elif request.method == "PUT":
+            state_update = request.get_json()
+            if not state_update:
+                abort(400, "Not a JSON")
+            else:
+                for key, value in state_update.items():
+                    if key not in ["id", "state_id",
+                                   "created_at", "updated_at"]:
+                        setattr(state, key, value)
+            storage.save()
+            return make_response(jsonify(state.to_dict()), 200)
     else:
         abort(404)
