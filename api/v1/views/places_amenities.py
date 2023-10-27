@@ -20,7 +20,7 @@ mode = getenv("HBNB_TYPE_STORAGE")
                  strict_slashes=False)
 @swag_from('documentation/place_amenity/get_places_amenities.yml',
            methods=['GET'])
-def amenities_place(place_id):
+def amenities_from_place(place_id):
     """
     get Amenity objects from amenities relationship
     """
@@ -39,7 +39,7 @@ def amenities_place(place_id):
                  methods=["DELETE"], strict_slashes=False)
 @swag_from('documentation/place_amenity/delete_place_amenities.yml',
            methods=['DELETE'])
-def delete_amenity_place(place_id, amenity_id):
+def delete_amenity_from_place(place_id, amenity_id):
     """
     delete Amenity objects from amenities relationship
     """
@@ -63,10 +63,8 @@ def delete_amenity_place(place_id, amenity_id):
                  strict_slashes=False)
 @swag_from('documentation/place_amenity/post_place_amenities.yml',
            methods=['POST'])
-def insert_amenity_place(place_id, amenity_id):
-    """
-    Insert new amenity object into Place object
-    """
+def insert_amenity_in_place(place_id, amenity_id):
+    """Insert new amenity object into Place object"""
     place = storage.get(Place, place_id)
     amenity = storage.get(Amenity, amenity_id)
     if place is None or amenity is None:
