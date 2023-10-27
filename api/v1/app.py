@@ -8,8 +8,7 @@ from os import getenv
 from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
-from flasgger import Swagger
-from flasgger.utils import swag_from
+
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -30,14 +29,6 @@ def error(e):
     Handle 404 http error
     """
     return jsonify({"error": "Not found"}), 404
-
-
-app.config['SWAGGER'] = {
-    'title': 'AirBnB clone Restful API',
-    'uiversion': 3
-}
-
-Swagger(app)
 
 
 if __name__ == '__main__':
