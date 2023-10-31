@@ -120,3 +120,22 @@ class TestFileStorage(unittest.TestCase):
         storage = FileStorage()
         count = len(storage.all())
         self.assertEqual(count, storage.count())
+
+    def test_get(self):
+        """test return object of class by id"""
+        storage = models.storage
+        obj = State(name='Zakaria')
+        obj.save()
+        self.assertEqual(obj.id, storage.get(State, obj.id).id)
+        self.assertEqual(obj.name, storage.get(State, obj.id).name)
+        self.assertIsNot(obj, storage.get(State, obj.id + 'op'))
+        self.assertIsNone(storage.get(State, obj.id + 'op'))
+        self.assertIsNone(storage.get(State, 45))
+        self.assertIsNone(storage.get(None, obj.id))
+        self.assertIsNone(storage.get(int, obj.id))
+        with self.assertRaises(TypeError):
+            storage.get(State, obj.id, 'op')
+        with self.assertRaises(TypeError):
+            storage.get(State)
+        with self.assertRaises(TypeError):
+            storage.get()
